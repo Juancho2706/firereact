@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { signOut } from "firebase/auth";
 import { auth } from "./FireBase/FireBase";
 import PostList from "./components/PostList";
-
+import { useAuth } from "./components/Auth";
 
 
 
@@ -24,18 +24,7 @@ function App() {
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
 
-  useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      console.log("stuff");
-      if (user) {
-        setLoggedIn(true);
-        console.log(user);
-      } else {
-        console.log(user);
-        setLoggedIn(false);
-      }
-    });
-  }, []);
+ const user = useAuth()
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignUpClose = () => setShowSignUp(false);
