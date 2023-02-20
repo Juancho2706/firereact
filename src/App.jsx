@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import React from "react";
-import "./App.css";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
@@ -11,20 +10,54 @@ import "./FireBase/FireBase.jsx";
 import { ToastContainer as Tostadacontainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { signOut } from "firebase/auth";
-import { auth } from "./FireBase/FireBase";
 import PostList from "./components/PostList";
-import { useAuth } from "./components/Auth";
+// import { useAuth } from "./components/Auth";
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyDciqhA9rSeIh97LbG653OmgqgP5rp2Xpk",
+  authDomain: "proyectofirereact.firebaseapp.com",
+  projectId: "proyectofirereact",
+  storageBucket: "proyectofirereact.appspot.com",
+  messagingSenderId: "741783428124",
+  appId: "1:741783428124:web:4de5c0fbae51fa25b4d3d9",
+  measurementId: "G-NKW8J423F1",
+};
+
+// Initialize Firebase
+export const app = initializeApp(firebaseConfig);
+export const analytics = getAnalytics(app);
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+
+auth.onAuthStateChanged(async (user) => {
+  console.log("stuff");
+  if (user != null) {
+    console.log(user);
+
+  } else {
+    console.log(user);
+
+  }
+});
 
 function App() {
-  console.log('rendering APP')
+  console.log("rendering APP");
   const [loggedIn, setLoggedIn] = useState(false);
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
 
- const user = useAuth()
+  //  const user = useAuth()
 
   const handleSignInClose = () => setShowSignIn(false);
   const handleSignUpClose = () => setShowSignUp(false);

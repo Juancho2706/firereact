@@ -1,7 +1,7 @@
 // src/auth.js
 
 import { useState, useEffect } from "react";
-import { auth } from "../FireBase/FireBase";
+import { auth } from "../App";
 
 export const useAuth = () => {
   const [user, setUser] = useState(null);
@@ -11,7 +11,7 @@ export const useAuth = () => {
       setUser(user);
     });
 
-    return unsubscribe;
+   
   }, []);
   console.log('swaggers')
   return user;

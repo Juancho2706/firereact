@@ -8,8 +8,8 @@ import { useContext } from "react";
 import { TaskContext } from "../context/TaskContext";
 
 export default function PostList() {
-  const {x} = useContext(TaskContext);
-  console.log(x);
+  // const {x} = useContext(TaskContext);
+  // console.log(x);
   const [lospostshijos, usarLosPostsHijos] = useState([]);
   // onAuthStateChanged(
   //   auth,

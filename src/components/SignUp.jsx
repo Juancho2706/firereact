@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../FireBase/FireBase.jsx";
+import { auth } from "../App";
 import Tostadito from "./Tostadito.js";
 
 function SignUp({ showUp, handleCloseUp }) {

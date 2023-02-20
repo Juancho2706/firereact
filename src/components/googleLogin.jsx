@@ -1,7 +1,7 @@
 import React from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { Button } from "react-bootstrap";
-import { auth } from "../FireBase/FireBase.jsx";
+import { auth } from "../App";
 import Tostadito from "./Tostadito.js";
 
 export default function GoogleLogin({ handleClose }) {
