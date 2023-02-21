@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import React from "react";
 import "./App.css";
 import Container from "react-bootstrap/Container";
@@ -6,50 +6,58 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import SignIn from "./components/SignIn";
 import SignUp from "./components/SignUp";
-import { onAuthStateChanged } from "firebase/auth";
 import "./FireBase/FireBase.jsx";
 import { ToastContainer as Tostadacontainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { signOut } from "firebase/auth";
 import { auth } from "./FireBase/FireBase";
 import PostList from "./components/PostList";
-import logoutsys from "./components/logoutsys.js";
+import { TaskContext } from "./context/TaskContext";
 
 function App() {
-  console.log('rendering APP')
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [showSignIn, setShowSignIn] = useState(false);
-  const [showSignUp, setShowSignUp] = useState(false);
+  console.log("rendering APP");
+  const {
+    loggedIn,
+    loading,
+    setLoading,
+    showSignIn,
+    showSignUp,
+    yarenderizoApp,
+    yaexisteusuario,
+    handleSignUpShow,
+    handleSignInShow,
+    handleSignInClose,
+    handleSignUpClose,
+    setLoggedIn,
+    setShowSignIn,
+    setYauser,
+    setShowSignUp,
+  } = useContext(TaskContext);
 
   useEffect(() => {
-    auth.onAuthStateChanged(async (user) => {
-      console.log("stuff");
-      if (user) {
-        setLoggedIn(true);
-        console.log(user);
-      } else {
-        console.log(user);
-        setLoggedIn(false);
-      }
-    });
+    if (yaexisteusuario == false) {
+      const unsubscribe = () => {
+        auth.onAuthStateChanged(async (user) => {
+          console.log("stuff");
+          if (user) {
+            setYauser(true);
+            setLoggedIn(true);
+            console.log(user);
+            setLoading(true)
+          } else {
+            console.log(user);
+            setLoggedIn(false);
+            setLoading(true)
+          }
+        });
+      };
+
+      return unsubscribe();
+    }
   }, []);
 
-  const handleSignInClose = () => setShowSignIn(false);
-  const handleSignUpClose = () => setShowSignUp(false);
-
-  const handleSignInShow = () => {
-    setShowSignIn(true);
-    setShowSignUp(false);
-  };
-
-  const handleSignUpShow = () => {
-    setShowSignUp(true);
-    setShowSignIn(false);
-  };
-
   return (
-    <>
-      <Navbar bg="dark" variant="dark" expand="lg">
+    <>{loading? (<><Navbar bg="dark" variant="dark" expand="lg">
         <Container>
           <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -60,7 +68,10 @@ function App() {
                   href="#logout"
                   className="thelogouts"
                   onClick={async () => {
+                    setYauser(false);
+                    setLoading(false)
                     await signOut(auth);
+                    // unsubscribe()
                   }}
                 >
                   Logout
@@ -95,9 +106,9 @@ function App() {
       )}
 
       <div className="contenido">
-        <PostList />
+        {loggedIn ? <PostList /> : <></>}
         <Tostadacontainer />
-      </div>
+      </div></>) : (<>LOADING...</>)}
     </>
   );
 }

@@ -13,7 +13,6 @@ export default function GoogleLogin({ handleClose }) {
         const provider = new GoogleAuthProvider();
         try {
           const credentials = await signInWithPopup(auth, provider);
-          console.log(credentials);
           handleClose();
           Tostadito("Bienvenido " + credentials.user.displayName);
         } catch (error) {

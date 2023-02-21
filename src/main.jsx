@@ -5,9 +5,11 @@ import "./index.css";
 import { TaskContextProvider } from "./context/TaskContext";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+
+    
     <TaskContextProvider>
+      {console.log('Renderizando Main')}
       <App />
     </TaskContextProvider>
-  </React.StrictMode>
+
 );

@@ -8,24 +8,35 @@ import { useContext } from "react";
 import { TaskContext } from "../context/TaskContext";
 
 export default function PostList() {
-  const {x} = useContext(TaskContext);
-  console.log(x);
-  const [lospostshijos, usarLosPostsHijos] = useState([]);
-  // onAuthStateChanged(
-  //   auth,
-  //   async (user) => {
-  //     console.log("stuff");
-  //     if (user != null) {
-        
-  //       console.log(user)
-  //       logoutsys(user);
-  //     } else {console.log(user)
-  //       logoutsys(user);
-  //     }
-  //   },
-    
-  // );
+  const { x, modificarx, usex } = useContext(TaskContext);
 
-  console.log(lospostshijos);
-  return <>{lospostshijos}</>;
+  console.log(x);
+
+  useEffect(() => {
+    const postearweas = async () => {
+      const querySnapshot = await getDocs(collection(db, "posts"));
+      const arraysPostsData = [];
+      querySnapshot.docs.forEach((doc) => {
+        console.log("contador: " + 1);
+        const postsdata = doc.data();
+        console.log(postsdata);
+        // return (
+        //   <PostCarta title={postsdata.title} content={postsdata.content} />
+        // );
+        arraysPostsData.push(
+          <PostCarta
+            title={postsdata.title}
+            content={postsdata.content}
+            key={doc.id}
+          />
+        );
+      });
+      modificarx(arraysPostsData)
+    };
+    console.log("UGGGGGGGGGG");
+    postearweas();
+    return postearweas;
+  }, []);
+  console.log(x);
+  return <>{x}</>;
 }
