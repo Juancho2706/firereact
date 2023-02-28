@@ -13,9 +13,11 @@ import { signOut } from "firebase/auth";
 import { auth } from "./FireBase/FireBase";
 import PostList from "./components/PostList";
 import { TaskContext } from "./context/TaskContext";
+import Botonanadirpost from "./components/Botonanadirpost";
+import NuevoPostUser from "./components/NuevoPostUser";
 
 function App() {
-  console.log("rendering APP");
+  // console.log("rendering APP");
   const {
     loggedIn,
     loading,
@@ -40,14 +42,14 @@ function App() {
         auth.onAuthStateChanged(async (user) => {
           console.log("stuff");
           if (user) {
-            setYauser(true);
-            setLoggedIn(true);
+            await setYauser(true);
+            await setLoggedIn(true);
             console.log(user);
-            setLoading(true)
+            await setLoading(true);
           } else {
             console.log(user);
-            setLoggedIn(false);
-            setLoading(true)
+            await setLoggedIn(false);
+            await setLoading(true);
           }
         });
       };
@@ -55,60 +57,79 @@ function App() {
       return unsubscribe();
     }
   }, []);
-
+  // console.log(auth.currentUser.photoURL)
   return (
-    <>{loading? (<><Navbar bg="dark" variant="dark" expand="lg">
-        <Container>
-          <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav" className="sinlog">
-            <Nav className="ms-auto">
-              {loggedIn ? (
-                <Nav.Link
-                  href="#logout"
-                  className="thelogouts"
-                  onClick={async () => {
-                    setYauser(false);
-                    setLoading(false)
-                    await signOut(auth);
-                    // unsubscribe()
-                  }}
-                >
-                  Logout
-                </Nav.Link>
-              ) : (
-                <>
-                  <Nav.Link
-                    href="#home"
-                    onClick={handleSignInShow}
-                    className="thelogins"
-                  >
-                    Sign-in
-                  </Nav.Link>
-                  <Nav.Link
-                    href="#link"
-                    onClick={handleSignUpShow}
-                    className="thelogins"
-                  >
-                    Signup
-                  </Nav.Link>
-                </>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-      {!loggedIn && (
+    <>
+      {loading ? (
         <>
-          <SignIn show={showSignIn} handleClose={handleSignInClose} />
-          <SignUp showUp={showSignUp} handleCloseUp={handleSignUpClose} />
-        </>
-      )}
+          <Navbar bg="dark" variant="dark" expand="lg">
+            <Container>
+              <Navbar.Brand href="#home">Caralibro</Navbar.Brand>
+              <Navbar.Toggle aria-controls="basic-navbar-nav" />
+              <Navbar.Collapse id="basic-navbar-nav" className="sinlog">
+                <Nav className="ms-auto">
+                  {loggedIn ? (
+                    <Nav.Link
+                      href="#logout"
+                      className="thelogouts"
+                      onClick={async () => {
+                        setYauser(false);
+                        setLoading(false);
+                        await signOut(auth);
+                        // unsubscribe()
+                      }}
+                    >
+                      Logout
+                    </Nav.Link>
+                  ) : (
+                    <>
+                      <Nav.Link
+                        href="#home"
+                        onClick={handleSignInShow}
+                        className="thelogins"
+                      >
+                        Sign-in
+                      </Nav.Link>
+                      <Nav.Link
+                        href="#link"
+                        onClick={handleSignUpShow}
+                        className="thelogins"
+                      >
+                        Signup
+                      </Nav.Link>
+                    </>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+          {!loggedIn && (
+            <>
+              <SignIn show={showSignIn} handleClose={handleSignInClose} />
+              <SignUp showUp={showSignUp} handleCloseUp={handleSignUpClose} />
+            </>
+          )}
 
-      <div className="contenido">
-        {loggedIn ? <PostList /> : <></>}
-        <Tostadacontainer />
-      </div></>) : (<>LOADING...</>)}
+          <div className="contenido">
+            <div className="leftmenus"></div>
+            <div className="poststimeline">
+              
+              {loggedIn ? (
+                <>
+                  <NuevoPostUser />
+                  <PostList />
+                </>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+
+          <Tostadacontainer />
+        </>
+      ) : (
+        <>LOADING...</>
+      )}
     </>
   );
 }

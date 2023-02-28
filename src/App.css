@@ -1,4 +1,45 @@
 .contenido{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
     background-color: black;
-    height: 100vh;
+    justify-items: center;
+    height: 100%;
+    gap: 10px;
+}
+.contenido .poststimeline .card{
+    width: 700px;
+}
+@media screen and (max-width: 768px) {
+    .contenido {
+        grid-template-columns: 0fr 2fr 0fr;
+    }
+    .contenido .poststimeline .card{
+        width: auto;
+    }
+  }
+.buttonpost{
+    position: fixed;
+    border-radius: 83px;
+    top: 90%;
+    left: 50%;
+    transform: translate(-50%);
+}
+html{
+    background-color: black;
+}
+.picanduser{
+    display: grid;
+    grid-template-columns: 1fr 6fr 0.5fr 0.5fr;
+    align-items: center;
+}
+.picanduser > img{
+    width: 45px;
+    border-radius: 25px;
+}
+.picanduser > div{
+    display: flex;
+    flex-direction: column;
+}
+.picanduser > div >p{
+    margin: 0;
 }
