@@ -4,9 +4,10 @@ import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import Form from "react-bootstrap/Form";
 import { db,auth } from "../FireBase/FireBase";
-import { setDoc, collection, doc } from "firebase/firestore";
+import { setDoc, collection, doc, Timestamp } from "firebase/firestore";
 import { TaskContext } from "../context/TaskContext";
 import PostCarta from "./PostCarta";
+
 
 function NuevoPostUser() {
   const {
@@ -35,7 +36,7 @@ function NuevoPostUser() {
 
   const modificarlosposts = (title, content, id, date,author,authorpic) => {
     const arraysPostsData = x;
-    arraysPostsData.push(
+    arraysPostsData.unshift(
       <PostCarta title={title} content={content} key={id} fecha={date} username={author} usernamepic={authorpic}/>
     );
     modificarx(arraysPostsData);
@@ -48,10 +49,12 @@ function NuevoPostUser() {
     setInputContent(event.target.value);
   };
 
+
   const enviodepost = async (e) => {
     try {
       e.preventDefault();
-      let newsetdate = nuevafecha()
+      
+      let newsetdate = Timestamp.fromDate(new Date())
       const newPostDocRef = await doc(collectionRef); // Crea una referencia al nuevo documento con ID aleatorio
       await setDoc(newPostDocRef, {
         title: inputTitle,
@@ -61,7 +64,8 @@ function NuevoPostUser() {
         authorpic: auth.currentUser.photoURL
       });
       console.log(auth.currentUser)
-      modificarlosposts(inputTitle, inputContent, newPostDocRef.id, newsetdate, auth.currentUser.displayName, auth.currentUser.photoURL);
+      const fecha = new Date(newsetdate.seconds * 1000).toLocaleDateString();
+      modificarlosposts(inputTitle, inputContent, newPostDocRef.id, fecha, auth.currentUser.displayName, auth.currentUser.photoURL);
       setInputContent("");
       setInputTitle("");
       document.getElementById("formBasicTitle").value = ""

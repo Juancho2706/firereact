@@ -6,7 +6,6 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../FireBase/FireBase.jsx";
 import Tostadito from "./Tostadito.js";
 import GoogleLogin from "./googleLogin.jsx";
-import FacebookLogin from "./FacebookLogin.jsx";
 import { Card } from "react-bootstrap";
 import GithubLogin from "./GithubLogin.jsx";
 
@@ -74,7 +73,6 @@ function SignIn({ show, handleClose }) {
         </Form>
         <Card style={{ gap: "10px" }} >
           <GoogleLogin handleClose={handleClose} />
-          <FacebookLogin handleClose={handleClose} />
           <GithubLogin handleClose={handleClose} />
         </Card>
       </Modal.Body>

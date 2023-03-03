@@ -40,14 +40,11 @@ function App() {
     if (yaexisteusuario == false) {
       const unsubscribe = () => {
         auth.onAuthStateChanged(async (user) => {
-          console.log("stuff");
           if (user) {
             await setYauser(true);
             await setLoggedIn(true);
-            console.log(user);
             await setLoading(true);
           } else {
-            console.log(user);
             await setLoggedIn(false);
             await setLoading(true);
           }
